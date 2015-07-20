@@ -2,5 +2,6 @@
 <resources>
 
     <color name="primary">#242424</color>
-    <color name="accent">#FCCB05</color>
+    <color name="accent">#FFEB3B</color>
+    <color name="statusBar">#FBC02D'</color>
 </resources>
