@@ -11,11 +11,16 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import com.podcentral.podcastcentral.utils.JsonUtility;
 public class MainActivity extends AppCompatActivity {
+
     private Toolbar toolbar;
-    private TextView hello;
+    JSONObject user;
+    private TextView username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Getting Data ...");
+            pDialog.setMessage(getString(R.string.loading_dialog));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -83,8 +88,10 @@ public class MainActivity extends AppCompatActivity {
             JsonUtility jsonUtility = new JsonUtility();
 
 
-            final String  JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/users?id=1";
-            JSONObject json = jsonUtility.getJSONFromUrl(JSON_URL);
+            final String  JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/users?";
+            final String  KEY_ID = "id";
+            final int  VERSION = 5;
+            JSONObject json = jsonUtility.getJSONFromUrl(JSON_URL, KEY_ID, VERSION );
             return json;
         }
 
@@ -92,13 +99,21 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             pDialog.dismiss();
+            try {
+                String name = jsonObject.getString("name");
 
-            hello.setText(jsonObject.toString());
+                username.setText("Welcome: " + name);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
 
     public void initialize(){
-        hello = (TextView) findViewById(R.id.greeting);
+        username = (TextView) findViewById(R.id.username);
+        user  = null;
     }
 }

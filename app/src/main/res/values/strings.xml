@@ -17,4 +17,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+
+    <string name ="loading_dialog">Loading user information</string>
 </resources>

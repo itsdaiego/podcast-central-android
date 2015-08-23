@@ -27,13 +27,15 @@ public class JsonUtility {
     public JsonUtility() {
 
     }
-    public JSONObject getJSONFromUrl(String url) {
+    public JSONObject getJSONFromUrl(String url, String key, int value) {
 
         // Making HTTP request
         try {
             // defaultHttpClient
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(url);
+
+            String fullUrl = url + key + "="  + value;
+            HttpGet httpGet = new HttpGet(fullUrl);
 
             HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
