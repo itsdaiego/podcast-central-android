@@ -1,5 +1,7 @@
 package com.podcentral.podcastcentral;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,13 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-
+import android.widget.TextView;
+import org.json.JSONObject;
+import com.podcentral.podcastcentral.utils.JsonUtility;
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private TextView hello;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initialize();
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -23,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout), toolbar);
+
+
+        new JsonUitlity().execute();
+
+
     }
 
     @Override
@@ -51,5 +62,43 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class JsonUitlity extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Getting Data ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            JsonUtility jsonUtility = new JsonUtility();
+
+
+            final String  JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/users?id=1";
+            JSONObject json = jsonUtility.getJSONFromUrl(JSON_URL);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            pDialog.dismiss();
+
+            hello.setText(jsonObject.toString());
+        }
+    }
+
+
+    public void initialize(){
+        hello = (TextView) findViewById(R.id.greeting);
     }
 }
