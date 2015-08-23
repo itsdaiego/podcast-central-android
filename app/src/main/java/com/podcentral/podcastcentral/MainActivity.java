@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.podcentral.podcastcentral.utils.JsonUtility;
-public class MainActivity extends AppCompatActivity {
+import com.podcentral.podcastcentral.utils.*;
+import com.podcentral.podcastcentral.utils.interfaces.AppConstants;
+
+public class MainActivity extends AppCompatActivity implements AppConstants {
 
     private Toolbar toolbar;
     JSONObject user;
@@ -26,8 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initializing variables
         initialize();
 
+
+        //Setting up the toolbar
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
+
+        //Setting up the navigation drawer
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -42,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout), toolbar);
 
 
+        //Getting API data using JSON format
         new JsonUitlity().execute();
 
 
@@ -87,13 +95,9 @@ public class MainActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... params) {
             JsonUtility jsonUtility = new JsonUtility();
 
-
-            final String  JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/users?";
-            final String  KEY_ID = "id";
-            final int  VERSION = 5;
-            JSONObject json = jsonUtility.getJSONFromUrl(JSON_URL, KEY_ID, VERSION );
+            JSONObject json = jsonUtility.getJSONFromUrl(AppConstants.JSON_URL, AppConstants.USER_ID, 5);
             return json;
-        }
+    }
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
