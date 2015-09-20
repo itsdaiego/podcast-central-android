@@ -17,17 +17,17 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class JsonUtility {
+public class ApiUtility {
 
     static InputStream is = null;
     static JSONObject jObj = null;
     static String json = "";
 
     // constructor
-    public JsonUtility() {
+    public ApiUtility() {
 
     }
-    public JSONObject getJSONFromUrl(String url, String key, int value) {
+    public JSONObject getUserJSON(String url, String key, int value) {
 
         // Making HTTP request
         try {

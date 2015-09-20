@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity implements AppConstants {
 
     private Toolbar toolbar;
     JSONObject user;
-    private TextView username;
+    private TextView username, email;
+    private ImageView userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements AppConstants {
 
         @Override
         protected JSONObject doInBackground(String... params) {
-            JsonUtility jsonUtility = new JsonUtility();
+            ApiUtility apiUtility = new ApiUtility();
 
-            JSONObject json = jsonUtility.getJSONFromUrl(AppConstants.JSON_URL, AppConstants.USER_ID, 5);
+            JSONObject json = apiUtility.getUserJSON(AppConstants.JSON_URL, AppConstants.USER_ID, 9);
             return json;
     }
 
@@ -104,9 +106,16 @@ public class MainActivity extends AppCompatActivity implements AppConstants {
             super.onPostExecute(jsonObject);
             pDialog.dismiss();
             try {
-                String name = jsonObject.getString("name");
+                ImageUtility imageUtility = new ImageUtility();
 
-                username.setText("Welcome: " + name);
+                String name = jsonObject.getString("name");
+                String userEmail = jsonObject.getString("email");
+                String image = jsonObject.getString("image64");
+
+                userImage.setImageBitmap(imageUtility.getDecodedBase64Image(image));
+                username.setText("Username: " + name);
+                email.setText("Email: " + userEmail);
+
 
 
             } catch (JSONException e) {
@@ -118,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements AppConstants {
 
     public void initialize(){
         username = (TextView) findViewById(R.id.username);
+        email = (TextView) findViewById(R.id.email);
+        userImage = (ImageView) findViewById(R.id.user_image);
         user  = null;
     }
 }
