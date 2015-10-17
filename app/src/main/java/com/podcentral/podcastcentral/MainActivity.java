@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements AppConstants {
         protected JSONObject doInBackground(String... params) {
             ApiUtility apiUtility = new ApiUtility();
 
-            JSONObject json = apiUtility.getUserJSON(AppConstants.JSON_URL, AppConstants.USER_ID, 9);
+            JSONObject json = apiUtility.getUserJSON(AppConstants.JSON_URL, AppConstants.USER_ID, 1);
             return json;
     }
 

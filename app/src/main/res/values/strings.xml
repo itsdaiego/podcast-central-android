@@ -6,7 +6,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_community">Community</string>
-    <string name="menu_podcasts">Podcastss</string>
+    <string name="menu_podcasts">Podcasts</string>
     <string name="title_activity_navigation_drawer_fragment">NavigationDrawerFragment</string>
 
     <string name="title_section1">Section 1</string>
