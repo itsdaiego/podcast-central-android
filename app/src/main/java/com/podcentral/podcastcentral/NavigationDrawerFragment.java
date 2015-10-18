@@ -4,20 +4,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class NavigationDrawerFragment extends Fragment {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-
+    private ListView mDrawerListView;
     public NavigationDrawerFragment(){
 
     }
@@ -25,7 +32,24 @@ public class NavigationDrawerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView = (ListView) inflater.inflate(
+                R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("POSITION:", getString(position));
+            }
+        });
+        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_activated_1,
+                new String[]{
+                        getString(R.string.menu_home),
+                        getString(R.string.menu_community),
+                        getString(R.string.menu_podcasts),
+                }));
+        mDrawerListView.setItemChecked(1, true);
+        return mDrawerListView;
     }
 
     public void setUp(DrawerLayout drawerLayout, Toolbar toolbar){
