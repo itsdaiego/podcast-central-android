@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity
 
         drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout), toolbar);
 
-
         //Getting API data using JSON format
         new JsonUitlity().execute();
 
@@ -89,24 +88,27 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Intent intent;
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position){
             case 0:
                 Log.i("Activity called: ", "user");
-
+                UserFragment userFragment = new UserFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_layout, userFragment, "User Fragment")
+                        .commit();
                 break;
             case 1:
                 Log.i("Status: ", "Podcast");
+                PodcastFragment podcastFragment = new PodcastFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_layout, podcastFragment, "PodcastFragment")
+                        .commit();
                 break;
             case 2:
-                //TODO: Create Community activity
                 Log.i("Status: ", "Community");
                 break;
         }
-        /*FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.podcast, PodcastFragment.newInstance(position + 1))
-                .commit();*/
+
     }
 
     private class JsonUitlity extends AsyncTask<String, String, JSONObject> {
@@ -120,7 +122,6 @@ public class MainActivity extends AppCompatActivity
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
         }
 
         @Override

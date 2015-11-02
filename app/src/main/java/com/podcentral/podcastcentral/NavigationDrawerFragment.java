@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 public class NavigationDrawerFragment extends Fragment {
 
-    Activity activity = NavigationDrawerFragment.this.getActivity();
     private NavigationDrawerCallbacks mCallbacks;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;

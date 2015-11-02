@@ -10,16 +10,10 @@ import android.view.ViewGroup;
 /**
  * Created by dyego on 11/2/15.
  */
-public class UserFragment extends Fragment {
+public class PodcastFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_user, container, false);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        return inflater.inflate(R.layout.fragment_podcast, container, false);
     }
 }

@@ -5,12 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/primary"
     tools:context=".MainActivity">
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
     <ImageView
         android:id="@+id/user_image"
-        android:layout_below="@+id/app_bar"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_marginTop="30dp"/>
