@@ -93,20 +93,22 @@ public class MainActivity extends AppCompatActivity
         switch (position){
             case 0:
                 Log.i("Activity called: ", "user");
-                intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+
                 break;
             case 1:
                 Log.i("Status: ", "Podcast");
-                intent = new Intent(this, PodcastActivity.class);
-                startActivity(intent);
                 break;
             case 2:
                 //TODO: Create Community activity
                 Log.i("Status: ", "Community");
                 break;
         }
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.podcast, PodcastFragment.newInstance(position + 1))
+                .commit();*/
     }
+
     private class JsonUitlity extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
 
