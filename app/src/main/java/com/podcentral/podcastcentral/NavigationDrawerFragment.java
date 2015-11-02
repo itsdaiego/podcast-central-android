@@ -1,5 +1,6 @@
 package com.podcentral.podcastcentral;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 public class NavigationDrawerFragment extends Fragment {
 
+    Activity activity = NavigationDrawerFragment.this.getActivity();
+    private NavigationDrawerCallbacks mCallbacks;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
@@ -46,8 +49,9 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 new String[]{
                         getString(R.string.menu_home),
-                        getString(R.string.menu_community),
                         getString(R.string.menu_podcasts),
+                        getString(R.string.menu_community)
+
                 }));
         mDrawerListView.setItemChecked(1, true);
         return mDrawerListView;
@@ -77,19 +81,31 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
     }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallbacks = (NavigationDrawerCallbacks) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
     public void selectItem(int position){
         mCurrentSelectedPosition = position;
-        switch (position){
-            case 0:
-                Log.i("Status: ", "yay");
-                break;
-            case 1:
-                Log.i("Status: ", "yay2");
-                break;
-            case 2:
-                Log.i("Status: ", "yay3");
-                break;
+        if (mDrawerListView != null) {
+            mDrawerListView.setItemChecked(position, true);
         }
+        if (mCallbacks != null) {
+                mCallbacks.onNavigationDrawerItemSelected(position);
+        }
+    }
+    public static interface NavigationDrawerCallbacks{
+        void onNavigationDrawerItemSelected(int position);
     }
 }
