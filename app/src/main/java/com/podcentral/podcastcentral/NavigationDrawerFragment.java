@@ -25,6 +25,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
+    private int mCurrentSelectedPosition = 0;
     public NavigationDrawerFragment(){
 
     }
@@ -37,7 +38,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("POSITION:", getString(position));
+                selectItem(position);
             }
         });
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
@@ -75,5 +76,20 @@ public class NavigationDrawerFragment extends Fragment {
                 mDrawerToggle.syncState();
             }
         });
+    }
+
+    public void selectItem(int position){
+        mCurrentSelectedPosition = position;
+        switch (position){
+            case 0:
+                Log.i("Status: ", "yay");
+                break;
+            case 1:
+                Log.i("Status: ", "yay2");
+                break;
+            case 2:
+                Log.i("Status: ", "yay3");
+                break;
+        }
     }
 }
