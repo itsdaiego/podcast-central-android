@@ -89,23 +89,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        PodcastFragment podcastFragment;
         switch (position){
             case 0:
-                Log.i("Activity called: ", "user");
-                UserFragment userFragment = new UserFragment();
+                getSupportFragmentManager().beginTransaction();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_layout, userFragment, "User Fragment")
-                        .commit();
+                        .remove(getSupportFragmentManager().findFragmentByTag("PodcastFragment")).commit();
                 break;
             case 1:
-                Log.i("Status: ", "Podcast");
-                PodcastFragment podcastFragment = new PodcastFragment();
+                podcastFragment = new PodcastFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_layout, podcastFragment, "PodcastFragment")
                         .commit();
                 break;
             case 2:
-                Log.i("Status: ", "Community");
                 break;
         }
 
@@ -128,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         protected JSONObject doInBackground(String... params) {
             ApiUtility apiUtility = new ApiUtility();
 
-            JSONObject json = apiUtility.getUserJSON(AppConstants.JSON_URL, AppConstants.USER_ID, 1);
+            JSONObject json = apiUtility.getContentJSON(AppConstants.USER_JSON_URL, AppConstants.USER_ID, 1);
             return json;
         }
 

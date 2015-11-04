@@ -4,13 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
+    android:layout_below="@+id/app_bar"
     tools:context=".MainActivity">
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+    <ImageView
+        android:id="@+id/podcast_image"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"/>
     <TextView
-        android:layout_below="@+id/app_bar"
-        android:layout_width="wrap_content"
+        android:id="@+id/podcast_name"
+        android:gravity="center"
+        android:layout_below="@+id/podcast_image"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Podcast Fragment \o/"/>
+        style="@style/TextColor"/>
 </RelativeLayout>

@@ -27,14 +27,19 @@ public class ApiUtility {
     public ApiUtility() {
 
     }
-    public JSONObject getUserJSON(String url, String key, int value) {
+    public JSONObject getContentJSON(String url, String key, int value) {
 
         // Making HTTP request
         try {
             // defaultHttpClient
             DefaultHttpClient httpClient = new DefaultHttpClient();
-
-            String fullUrl = url + key + "="  + value;
+            String fullUrl = "";
+            if(value != 0){
+                fullUrl = url +  "/"  + value;
+            }
+            else{
+                fullUrl = url;
+            }
             HttpGet httpGet = new HttpGet(fullUrl);
 
             HttpResponse httpResponse = httpClient.execute(httpGet);

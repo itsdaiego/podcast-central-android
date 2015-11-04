@@ -7,12 +7,14 @@ public interface AppConstants {
 
     //User's api related information
     public static final String USER_ID = "id";
+    public static final String PODCAST_ID = "id";
     public static final String USER_NAME = "name";
     public static final String USER_EMAIL = "email";
 
 
 
     //General API information
-    final String  JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/users?";
-    final String  KEY_ID = "id";
+    String  USER_JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/users/";
+    String  PODCAST_JSON_URL = "https://alpha-podcast-central.herokuapp.com/api/podcasts/";
+    String  KEY_ID = "id";
 }
