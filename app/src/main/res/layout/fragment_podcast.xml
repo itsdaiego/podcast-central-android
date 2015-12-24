@@ -6,16 +6,10 @@
     android:background="@color/primary"
     android:layout_below="@+id/app_bar"
     tools:context=".MainActivity">
-    <ImageView
-        android:id="@+id/podcast_image"
+
+    <ListView
+        android:id="@+id/list_podcasts"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/podcast_name"
-        android:gravity="center"
-        android:layout_below="@+id/podcast_image"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        style="@style/TextColor"/>
+        android:layout_height="fill_parent" />
+
 </RelativeLayout>
