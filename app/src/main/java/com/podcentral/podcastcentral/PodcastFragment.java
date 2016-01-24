@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.podcentral.podcastcentral.utils.ApiUtility;
+import com.podcentral.podcastcentral.utils.CustomAdapter;
 import com.podcentral.podcastcentral.utils.ImageUtility;
 import com.podcentral.podcastcentral.utils.interfaces.AppConstants;
 
@@ -86,12 +87,10 @@ public class PodcastFragment extends Fragment {
 
                 ArrayList list = new ArrayList();
                 for(int i =0; i< jsonArray.length(); i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    list.add(jsonObject.getString("name"));
+                    list.add(jsonArray.get(i));
                 }
-                ArrayAdapter<List> adapter = new ArrayAdapter<List>(getActivity(), R.layout.podcastlist, R.id.podcast_name, list);
+                CustomAdapter adapter = new CustomAdapter(getActivity(), list);
                 lv.setAdapter(adapter);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
