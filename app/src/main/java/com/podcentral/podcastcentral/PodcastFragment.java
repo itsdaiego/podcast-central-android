@@ -33,10 +33,19 @@ import java.util.List;
  */
 public class PodcastFragment extends Fragment {
     View rootView;
+    ListView lv;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_podcast, container, false);
+         lv = (ListView)rootView.findViewById(R.id.list_podcasts);
 
         new PodcastApiUtility().execute();
         return rootView;
@@ -77,10 +86,9 @@ public class PodcastFragment extends Fragment {
 
                 ArrayList list = new ArrayList();
                 for(int i =0; i< jsonArray.length(); i++){
-                    list.add(jsonArray.get(i));
+                    list.add(jsonArray.get(i).toString());
                 }
                 ArrayAdapter<List> adapter = new ArrayAdapter<List>(getActivity(), R.layout.podcastlist, R.id.podcast_name, list);
-                ListView lv = (ListView) rootView.findViewById(android.R.id.list);
                 lv.setAdapter(adapter);
 
             } catch (JSONException e) {
