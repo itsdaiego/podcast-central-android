@@ -3,10 +3,12 @@ package com.podcentral.podcastcentral.utils;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.podcentral.podcastcentral.R;
@@ -29,15 +31,20 @@ public class CustomAdapter extends ArrayAdapter {
         // Get the data item for this position
         //User user = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
+        ImageUtility imageUtility = new ImageUtility();
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.podcastlist, parent, false);
         }
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.podcast_name);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.podcast_image);
         // Populate the data into the template view using the data object
         try{
             JSONObject jsonObject = jsonList.getJSONObject(position);
             tvName.setText(jsonObject.getString("name"));
+
+            Bitmap bitmapImage = imageUtility.getDecodedBase64Image(jsonObject.getString("image64"));
+            imageView.setImageBitmap(bitmapImage);
 
         }catch (JSONException e){
             e.printStackTrace();

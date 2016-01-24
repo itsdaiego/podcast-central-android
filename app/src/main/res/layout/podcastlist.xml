@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_fragment"
     android:layout_width="match_parent"
@@ -8,14 +8,14 @@
     tools:context=".MainActivity">
     <ImageView
         android:id="@+id/podcast_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_star_big_off"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/podcast_name"
         android:gravity="center"
+        android:layout_below="@id/podcast_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="foobar"
         style="@style/TextColor"/>
-</LinearLayout>
+</RelativeLayout>

@@ -83,7 +83,6 @@ public class PodcastFragment extends Fragment {
             super.onPostExecute(jsonArray);
             pDialog.dismiss();
             try {
-                ImageUtility imageUtility = new ImageUtility();
 
                 ArrayList list = new ArrayList();
                 for(int i =0; i< jsonArray.length(); i++){
