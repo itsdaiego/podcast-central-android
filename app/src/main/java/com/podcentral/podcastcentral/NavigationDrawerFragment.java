@@ -45,7 +45,8 @@ public class NavigationDrawerFragment extends Fragment {
         });
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActivity(),
-                android.R.layout.simple_list_item_activated_1,
+                R.layout.custom_navigation_drawer_list,
+                R.id.rowTextView,
                 new String[]{
                         getString(R.string.menu_home),
                         getString(R.string.menu_podcasts),
