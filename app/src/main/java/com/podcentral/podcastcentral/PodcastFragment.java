@@ -86,7 +86,8 @@ public class PodcastFragment extends Fragment {
 
                 ArrayList list = new ArrayList();
                 for(int i =0; i< jsonArray.length(); i++){
-                    list.add(jsonArray.get(i).toString());
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    list.add(jsonObject.getString("name"));
                 }
                 ArrayAdapter<List> adapter = new ArrayAdapter<List>(getActivity(), R.layout.podcastlist, R.id.podcast_name, list);
                 lv.setAdapter(adapter);
