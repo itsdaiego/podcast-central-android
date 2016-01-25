@@ -6,9 +6,12 @@
 
     <TextView
         android:id="@+id/rowTextView"
+        android:textColor="#fff"
+        android:typeface="sans"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:layout_marginLeft="20dp"
         android:textSize="16sp" >
     </TextView>
 

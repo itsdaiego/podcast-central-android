@@ -88,7 +88,7 @@ public class PodcastFragment extends Fragment {
                 for(int i =0; i< jsonArray.length(); i++){
                     list.add(jsonArray.get(i));
                 }
-                CustomAdapter adapter = new CustomAdapter(getActivity(), list);
+                CustomAdapter adapter = new CustomAdapter(getActivity(), R.layout.podcastlist, R.id.podcast_image, R.id.podcast_name, list);
                 lv.setAdapter(adapter);
             } catch (JSONException e) {
                 e.printStackTrace();

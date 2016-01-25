@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,12 @@ import org.json.JSONObject;
 
 public class CustomAdapter extends ArrayAdapter {
     JSONArray jsonList = new JSONArray();
-    public CustomAdapter(Context context, ArrayList items) {
+    int mLayout, mImage, mName;
+    public CustomAdapter(Context context, int layout, int image, int name, ArrayList items) {
         super(context, 0, items);
+        mLayout = layout;
+        mImage = image;
+        mName = name;
         for(int i=0; i < items.size(); i++){
             jsonList.put(items.get(i));
         }
@@ -33,11 +38,11 @@ public class CustomAdapter extends ArrayAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
         ImageUtility imageUtility = new ImageUtility();
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.podcastlist, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(mLayout, parent, false);
         }
         // Lookup view for data population
-        TextView tvName = (TextView) convertView.findViewById(R.id.podcast_name);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.podcast_image);
+        TextView tvName = (TextView) convertView.findViewById(mName);
+        ImageView imageView = (ImageView) convertView.findViewById(mImage);
         // Populate the data into the template view using the data object
         try{
             JSONObject jsonObject = jsonList.getJSONObject(position);
