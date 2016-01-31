@@ -2,56 +2,56 @@ package com.podcentral.podcastcentral;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.podcentral.podcastcentral.utils.*;
+import com.podcentral.podcastcentral.utils.ApiUtility;
+import com.podcentral.podcastcentral.utils.CustomAdapter;
 import com.podcentral.podcastcentral.utils.interfaces.AppConstants;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private Toolbar toolbar;
-    JSONObject user;
-    private TextView username, email;
-    private ImageView userImage;
+import java.util.ArrayList;
+
+/**
+ * Created by dyego on 1/31/16.
+ */
+public class PodcastDetailsActivity extends AppCompatActivity implements  NavigationDrawerFragment.NavigationDrawerCallbacks {
+    int podcast_id = 0;
+    Toolbar toolbar = null;
+    TextView podcast_name = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //Initializing variables
+        setContentView(R.layout.podcast_details_activity);
         initialize();
-
 
         //Setting up the toolbar
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.statusBar));
+        window.setTitle("Podcast Supimpa");
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
 
         //Setting up the navigation drawer
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -60,29 +60,10 @@ public class MainActivity extends AppCompatActivity
 
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        //Getting API data using JSON format
-        new JsonUitlity().execute();
-    }
+        Bundle bundle = getIntent().getExtras();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        podcast_id = bundle.getInt("PODCAST_ID");
+        new PodcastApiUtility().execute();
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -105,15 +86,14 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
-
-    private class JsonUitlity extends AsyncTask<String, String, JSONObject> {
+    private class PodcastApiUtility extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage(getString(R.string.loading_dialog));
+            pDialog = new ProgressDialog(PodcastDetailsActivity.this);
+            pDialog.setMessage(getString(R.string.podcast_loading_dialog));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -123,34 +103,23 @@ public class MainActivity extends AppCompatActivity
         protected JSONObject doInBackground(String... params) {
             ApiUtility apiUtility = new ApiUtility();
 
-            JSONObject json = apiUtility.getContentJSON(AppConstants.USER_JSON_URL, AppConstants.USER_ID, 1);
+            JSONObject json = apiUtility.getContentJSON(AppConstants.PODCAST_JSON_URL, AppConstants.PODCAST_ID, podcast_id+1);
             return json;
         }
 
         @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
+        protected void onPostExecute(JSONObject json) {
+            super.onPostExecute(json);
             pDialog.dismiss();
-            try {
-                ImageUtility imageUtility = new ImageUtility();
-
-                String name = jsonObject.getString("name");
-                String userEmail = jsonObject.getString("email");
-                String image = jsonObject.getString("image64");
-
-                userImage.setImageBitmap(imageUtility.getDecodedBase64Image(image));
-                username.setText("Username: " + name);
-                email.setText("Email: " + userEmail);
-            } catch (JSONException e) {
+            try{
+                podcast_name.setText(json.getString("name"));
+            }catch(JSONException e){
                 e.printStackTrace();
             }
         }
-    }
 
+    }
     public void initialize(){
-        username = (TextView) findViewById(R.id.username);
-        email = (TextView) findViewById(R.id.email);
-        userImage = (ImageView) findViewById(R.id.user_image);
-        user  = null;
+        podcast_name = (TextView) findViewById(R.id.podcast_name);
     }
 }

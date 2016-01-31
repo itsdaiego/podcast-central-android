@@ -1,15 +1,20 @@
 package com.podcentral.podcastcentral;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,7 +40,8 @@ import java.util.List;
 public class PodcastFragment extends Fragment {
     View rootView;
     ListView lv;
-
+    ArrayList list;
+    Activity currentActivity =  null;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,12 @@ public class PodcastFragment extends Fragment {
 
         new PodcastApiUtility().execute();
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        currentActivity = activity;
+        super.onAttach(activity);
     }
 
     @Override
@@ -84,12 +96,22 @@ public class PodcastFragment extends Fragment {
             pDialog.dismiss();
             try {
 
-                ArrayList list = new ArrayList();
+               list = new ArrayList();
                 for(int i =0; i< jsonArray.length(); i++){
                     list.add(jsonArray.get(i));
                 }
                 CustomAdapter adapter = new CustomAdapter(getActivity(), R.layout.podcastlist, R.id.podcast_image, R.id.podcast_name, list);
                 lv.setAdapter(adapter);
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(currentActivity, PodcastDetailsActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("PODCAST_ID", position);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }

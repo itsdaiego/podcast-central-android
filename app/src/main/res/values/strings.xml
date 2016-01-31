@@ -8,6 +8,7 @@
     <string name="menu_community">Community</string>
     <string name="menu_podcasts">Podcasts</string>
     <string name="title_activity_navigation_drawer_fragment">NavigationDrawerFragment</string>
+    <string name="title_activity_podcast_details">Podcast Details</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -20,4 +21,5 @@
 
     <string name ="loading_dialog">Loading user information</string>
     <string name ="podcast_loading_dialog">Loading podcast information</string>
+    <string name ="podcast_details_loading_dialog">Please wait...</string>
 </resources>
