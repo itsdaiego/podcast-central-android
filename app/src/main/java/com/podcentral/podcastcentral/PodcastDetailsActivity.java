@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -17,10 +18,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.podcentral.podcastcentral.utils.ApiUtility;
 import com.podcentral.podcastcentral.utils.CustomAdapter;
+import com.podcentral.podcastcentral.utils.ImageUtility;
 import com.podcentral.podcastcentral.utils.interfaces.AppConstants;
 
 import org.json.JSONArray;
@@ -36,6 +39,7 @@ public class PodcastDetailsActivity extends AppCompatActivity implements  Naviga
     int podcast_id = 0;
     Toolbar toolbar = null;
     TextView podcast_name = null;
+    ImageView podcast_image = null;
 
 
     @Override
@@ -49,16 +53,12 @@ public class PodcastDetailsActivity extends AppCompatActivity implements  Naviga
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.statusBar));
-        window.setTitle("Podcast Supimpa");
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Podcast Details");
 
-        //Setting up the navigation drawer
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-
-        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -111,15 +111,20 @@ public class PodcastDetailsActivity extends AppCompatActivity implements  Naviga
         protected void onPostExecute(JSONObject json) {
             super.onPostExecute(json);
             pDialog.dismiss();
+            ImageUtility imageUtility = new ImageUtility();
             try{
                 podcast_name.setText(json.getString("name"));
+                Bitmap bitmap = imageUtility.getDecodedBase64Image(json.getString("image64"));
+                podcast_image.setImageBitmap(bitmap);
             }catch(JSONException e){
                 e.printStackTrace();
             }
         }
 
     }
+
     public void initialize(){
         podcast_name = (TextView) findViewById(R.id.podcast_name);
+        podcast_image = (ImageView) findViewById(R.id.podcast_image);
     }
 }

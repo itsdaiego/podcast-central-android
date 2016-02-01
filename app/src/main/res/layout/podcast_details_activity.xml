@@ -14,20 +14,17 @@
         <include
             android:id="@+id/app_bar"
             layout="@layout/app_bar"/>
+        <ImageView
+            android:id="@+id/podcast_image"
+            android:layout_below="@id/app_bar"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
         <TextView
             android:id="@+id/podcast_name"
-            android:layout_below="@id/app_bar"
+            android:layout_below="@id/podcast_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="#FFF"/>
     </RelativeLayout>
-    <fragment
-        android:id="@+id/fragment_navigation_drawer"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:layout="@layout/fragment_navigation_drawer"
-        android:name="com.podcentral.podcastcentral.NavigationDrawerFragment"
-        tools:layout="@layout/fragment_navigation_drawer" />
 </android.support.v4.widget.DrawerLayout>
 
